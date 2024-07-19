@@ -1,22 +1,18 @@
 #version 460
-// shader version 1
-#ifdef GL_ES
-precision mediump float;
-// vec4 fl_Coord = gl_FragCoord;
-#endif
+// shader version 2
+
+// This first pass measures the average luminance of the pixels chosen.
+// The output is a mostly black image where the pixels in the lower left corner is set to the measured luminance value.
 
 // inputs
-uniform float adsk_result_w, adsk_result_h;
-uniform sampler2D source;
+uniform float adsk_result_w, adsk_result_h; // width and height of the frame
+uniform sampler2D source; // input video
 
 // values from UI
-uniform vec2 measureCenterUV;
-uniform int measureSize;
-
-// debugging
+uniform vec2 measureCenterUV; // range 0 - 1
+uniform int measureSize; // range 1 - 100 (pixels each side of measureCenterUV)
 
 // weights of rgb when calculating luminance
-
 float luminance(vec3 color) {
     return dot(color, vec3(0.2126, 0.7152, 0.0722));
 }
@@ -46,6 +42,8 @@ void main(void) {
 
     float lum = .0;
 
+// process only the pixels that are in the lower left corner (u and v less than 0.01) and set lum to the measured luminance.
+// without this the calculateAverageLuminance is called once for every single pixel.
     if(all(lessThan(uv, vec2(0.01)))) {
         lum = calculateAverageLuminance(measureCenterUV, measureSize); // kald funktionen, der måler gennemsnit-lum i det definerede område
     }

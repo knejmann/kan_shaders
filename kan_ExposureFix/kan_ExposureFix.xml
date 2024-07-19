@@ -24,8 +24,8 @@ Latest version at https://github.com/knejmann/kan_shaders.
             Name="source">
         </Uniform>
 
-        <Uniform Inc="0.001" Tooltip="Location of the the pixel you'd like to sample." Row="2"
-            Col="1" Page="0" IconType="Axis" Type="vec2" DisplayName="Picker Position"
+        <Uniform Inc="0.001" Tooltip="Location of the the pixel you'd like to sample." Row="1"
+            Col="1" Page="0" IconType="Axis" Type="vec2" DisplayName="Center of measurement"
             Name="measureCenterUV">
             <SubUniform ResDependent="None" Max="1000000.0" Min="-1000000.0" Default="0.5">
             </SubUniform>
@@ -34,7 +34,7 @@ Latest version at https://github.com/knejmann/kan_shaders.
         </Uniform>
 
         <Uniform ResDependent="None" Max="100" Min="1" Default="1" Inc="1"
-            Tooltip="" Row="1" Col="1" Page="0" DisplayName="Measurement size" Type="int"
+            Tooltip="" Row="2" Col="1" Page="0" DisplayName="Measurement size" Type="int"
             Name="measureSize">
         </Uniform>
     </Shader>
@@ -82,10 +82,10 @@ Latest version at https://github.com/knejmann/kan_shaders.
             Type="bool" Default="False">
         </Uniform> -->
 
-        <Uniform Name="debug" Page="0" Col="1" Row="8"
+        <!-- <Uniform Name="debug" Page="0" Col="1" Row="8"
             DisplayName="Debug"
             Type="bool" Default="False">
-        </Uniform>
+        </Uniform> -->
 
     </Shader>
 
