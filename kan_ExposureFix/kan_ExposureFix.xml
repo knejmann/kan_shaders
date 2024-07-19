@@ -10,6 +10,7 @@ If you're monitoring in HD then the x-coordinate of the end of the bar
 is the value you'll want to enter in 'Target luminance' to get unaltered exposure on that frame.
 
 Latest version at https://github.com/knejmann/kan_shaders.
+For questions contact: post@kan.dk
 "
     Name="kan_ExposureFix" MatteProvider="False" InputFilmLightColourSpace="Rec709_lin"
     OutputFilmLightColourSpace="Rec709_lin">
