@@ -1,5 +1,5 @@
 #version 460
-
+// shader version 1
 #ifdef GL_ES
 precision mediump float;
 // vec4 fl_Coord = gl_FragCoord;
