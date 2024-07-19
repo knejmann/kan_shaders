@@ -1,5 +1,5 @@
 <ShaderNodePreset SupportsAdaptiveDegradation="0" LimitInputsToTexture="True"
-    CommercialUsePermitted="True" Version="1"
+    CommercialUsePermitted="True" Version="2"
     Description="
 Adjusts the exposure of the whole image so that the luminance of the selected pixels hits the target.
 
@@ -9,7 +9,7 @@ Can be used to remove in-camera exposure adjustments.
 If you're monitoring in HD then the x-coordinate of the end of the bar
 is the value you'll want to enter in 'Target luminance' to get unaltered exposure on that frame.
 
-Latest version at https://github.com/knejmann/shaders.
+Latest version at https://github.com/knejmann/kan_shaders.
 "
     Name="kan_ExposureFix" MatteProvider="False" InputFilmLightColourSpace="Rec709_lin"
     OutputFilmLightColourSpace="Rec709_lin">
@@ -19,7 +19,8 @@ Latest version at https://github.com/knejmann/shaders.
 
         <Uniform Index="0" NoInput="Error" Tooltip="" DisplayName="Source" InputType="Front"
             Mipmaps="False" GL_TEXTURE_WRAP_T="GL_CLAMP" GL_TEXTURE_WRAP_S="GL_CLAMP"
-            GL_TEXTURE_MAG_FILTER="GL_NEAREST" GL_TEXTURE_MIN_FILTER="GL_NEAREST" Type="sampler2D"
+            GL_TEXTURE_MAG_FILTER="GL_NEAREST" GL_TEXTURE_MIN_FILTER="GL_NEAREST"
+            Type="sampler2D"
             Name="source">
         </Uniform>
 
@@ -46,9 +47,9 @@ Latest version at https://github.com/knejmann/shaders.
             Name="source">
         </Uniform>
 
-        <Uniform InputColor="67, 77, 83" Mipmaps="False" GL_TEXTURE_WRAP_T="GL_CLAMP_TO_EDGE"
-            GL_TEXTURE_WRAP_S="GL_CLAMP_TO_EDGE" GL_TEXTURE_MAG_FILTER="GL_LINEAR"
-            GL_TEXTURE_MIN_FILTER="GL_LINEAR" Type="sampler2D" Name="adsk_results_pass1">
+        <Uniform GL_TEXTURE_WRAP_T="GL_CLAMP"
+            GL_TEXTURE_WRAP_S="GL_CLAMP" GL_TEXTURE_MAG_FILTER="GL_NEAREST"
+            GL_TEXTURE_MIN_FILTER="GL_NEAREST" Type="sampler2D" Name="adsk_results_pass1">
         </Uniform>
 
 
