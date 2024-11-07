@@ -3,9 +3,7 @@
    Description="
 This Matchbox shader creates chromatic aberrations and a barrel distortion.
 
-Modificeret af NJM 2024 (njm@dr.dk)
-
-Version: 1.9
+Version: 2.0
 
 Setup:
 
@@ -16,13 +14,17 @@ Setup:
 - Add Distortion: enable additional distortion
 - Amount: amount of applied distortion
 
-- Indre diameter bestemmer området uden distortion. Ydre, hvor hurtigt distortion har 100% effekt.
-Området kan ses ved at aktivere _Show C.A. Matte_
+Input/output
+- Inner diameter sets the diameter of the area not affected by the effects
+- Outside Outer diameter the effect is fully active
+- Aspect Ratio stretches the modulation matte
+- Show Modulation Matte displays the effected area
 
 Based on: https://www.shadertoy.com/view/XssGz8
+Matchbox version by Kyle Obley and ivar@inferno-op.com
+Adapted to Baselight for Avid (where matte must be generated in-effect) by Kåre Nejmann (post@kan.dk). Latest version at https://github.com/knejmann/kan_shaders.
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-
-Matchbox version by Kyle Obley and ivar@inferno-op.com"
+"
    Name="kan_ChromaWarp"
    InputFilmLightColourSpace="Rec709_lin" OutputFilmLightColourSpace="Rec709_lin">
 
@@ -38,10 +40,10 @@ Matchbox version by Kyle Obley and ivar@inferno-op.com"
          GL_TEXTURE_MIN_FILTER="GL_LINEAR" Type="sampler2D" Name="chroma_strength">
       </Uniform> -->
       <Uniform ResDependent="None" Max="2.0" Min="-2.0" Default="0.0" Inc="0.01" Tooltip="" Row="2"
-         Col="2" Page="0" DisplayName="Indre diameter" Type="float" Name="inner_diameter">
+         Col="2" Page="0" DisplayName="Inner diameter" Type="float" Name="inner_diameter">
       </Uniform>
       <Uniform ResDependent="None" Max="2.0" Min="-2.0" Default="1.0" Inc="0.01" Tooltip="" Row="3"
-         Col="2" Page="0" DisplayName="Ydre diameter" Type="float" Name="outer_diameter">
+         Col="2" Page="0" DisplayName="Outer diameter" Type="float" Name="outer_diameter">
       </Uniform>
 
       <Uniform ResDependent="None" Max="4.0" Min="-4.0" Default="1.78" Inc="0.01" Tooltip="" Row="4"
@@ -127,7 +129,8 @@ Matchbox version by Kyle Obley and ivar@inferno-op.com"
          UIConditionSource="add_distortion" UIConditionValue="1" UIConditionInvert="False"
          UIConditionType="Hide">
       </Uniform>
-      <Uniform Row="5" Col="2" Page="0" Default="False" Tooltip="" DisplayName="Show C.A. Matte"
+      <Uniform Row="5" Col="2" Page="0" Default="False" Tooltip=""
+         DisplayName="Show Modulation Matte"
          Type="bool" Name="show_ca_matte">
       </Uniform>
    </Shader>
