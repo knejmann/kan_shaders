@@ -50,6 +50,11 @@ This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAl
          Col="2" Page="0" DisplayName="Aspect ratio" Type="float" Name="width_ratio">
       </Uniform>
 
+      <Uniform Row="5" Col="2" Page="0" Default="False" Tooltip=""
+         DisplayName="Alternative matte code (just testing)"
+         Type="bool" Name="alternateMatte">
+      </Uniform>
+
    </Shader>
    <Shader OutputBitDepth="Output" Index="3">
       <Uniform Index="2" NoInput="White" Tooltip="" DisplayName="Dist Strength"
@@ -80,7 +85,8 @@ This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAl
       <Uniform ResDependent="None" Max="1.0" Min="0.0" Default="1.0" Inc="0.01" Tooltip="" Row="2"
          Col="0" Page="0" DisplayName="Saturation" Type="float" Name="off_chroma">
       </Uniform>
-      <Uniform Row="0" Col="2" Page="0" Default="False" Tooltip="" DisplayName="Invert C.A. Matte"
+      <Uniform Row="0" Col="2" Page="0" Default="False" Tooltip=""
+         DisplayName="Invert Modulation Matte"
          Type="bool" Name="inv_ca_matte">
       </Uniform>
    </Shader>
@@ -129,7 +135,7 @@ This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAl
          UIConditionSource="add_distortion" UIConditionValue="1" UIConditionInvert="False"
          UIConditionType="Hide">
       </Uniform>
-      <Uniform Row="5" Col="2" Page="0" Default="False" Tooltip=""
+      <Uniform Row="6" Col="2" Page="0" Default="False" Tooltip=""
          DisplayName="Show Modulation Matte"
          Type="bool" Name="show_ca_matte">
       </Uniform>
