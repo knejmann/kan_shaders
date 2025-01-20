@@ -12,6 +12,7 @@ uniform sampler2D adsk_results_pass1;
 uniform bool showMeasurement;
 uniform float expo_o;
 uniform float targetLuminance;
+uniform float effectBlending;
 
 uniform bool showArea;
 uniform bool debug;
@@ -45,7 +46,7 @@ float convertToLinearFloat(float val) {
     return float(P);
 }
 
-vec4 convertFromLinearFloat(float val) {
+float convertFromLinearFloat(float val) {
     float w = 128.0;
     float g = 16.0;
     float o = 0.075;
@@ -86,7 +87,7 @@ void main(void) {
     vec3 col = texture2D(source, uv).rgb;
 
     // overall exposure adjustemnt
-    col = col * pow(2.0, expo_o); // manual adjustment of exposure
+    vec3 colMan = col * pow(2.0, expo_o); // manual adjustment of exposure
 
     // grab the luminance of one pixel in the output of pass_1. This is the measured luminance.
     float lum = texture2D(adsk_results_pass1, vec2(0.005)).r;
@@ -98,28 +99,32 @@ void main(void) {
     float exposureComp = convertToLinearFloat(targetLuminance / 1920.) / lum; // virker når viewport er 1920 bred
 
     // multiply the color (RGB) by the exposureComp.
-    col *= exposureComp;
+    vec3 colComp = colMan * exposureComp;
 
     // // if(debug && uv.y <= 0.05 && uv.x <= lum / 100.)
     // if(debug && uv.y <= 0.05 && gl_FragCoord.x <= lum * 10.)
     //     col = vec3(1., 0., 0.);
 
-    // if enabled the measured luminance is plottet on the top 5% of the image as a bar.
+    // if enabled the measured luminance is plotted on the top 5% of the image as a red bar.
     if(showMeasurement && uv.y < 1 && uv.y >= 0.95 && uv.x <= lum_disp)
-        col = vec3(1., .0, 0.);
+        colComp = vec3(1.0, 0.0, 0.0);
+
+    // if showMeasurement is enabled the luminance target is plotted on the top 5-6% of the image as a green bar.
+    if(showMeasurement && uv.y < 0.95 && uv.y >= 0.94 && uv.x <= (targetLuminance / 1920.))
+        colComp = vec3(0.0, 0.5, 0.0);
 
     // if enabled the area where the luminance is measured is shown on screen.
     if(showArea) {
         float a = drawMeasureArea(uv, measureCenterUV, measureSize);
         float b = drawMeasureArea(uv, measureCenterUV, measureSize + 2);
 
-        col = mix(col, vec3(0.8, 0.8, 0.1), b - a);
+        colComp = mix(colComp, vec3(0.8, 0.8, 0.1), b - a);
     }
 
     if(debug)
         // gl_FragColor = vec4(vec3(lum), 0.);
         gl_FragColor = texture2D(adsk_results_pass1, uv);
     else
-        gl_FragColor = vec4(col, 1.0);
-
+        // gl_FragColor = vec4(colComp, 1.0);
+        gl_FragColor = vec4(mix(col, colComp, effectBlending), 1.0);
 }
