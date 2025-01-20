@@ -1,15 +1,16 @@
 <ShaderNodePreset SupportsAdaptiveDegradation="0" LimitInputsToTexture="True"
     CommercialUsePermitted="True" Version="2.1"
     Description="
-Adjusts the exposure of the whole image so that the luminance of the selected pixels hits the target.
+Adjusts the exposure of the whole image so that the average luminance of the measured pixels hits the target luminance.
 
 Can be used to remove in-camera exposure adjustments.
 
-'Show measured luminance' enables a bar indicating the measured luminance.
-If you're monitoring in HD then the x-coordinate of the end of the bar
-is the value you'll want to enter in 'Target luminance' to get unaltered exposure on that frame.
+'Show measured luminance' enables two bars indicating the measured luminance in red and the target luminance in green.
+When the two bars are of equal length, the exposure is unaltered.
 
-I've written the shader for Baselight for Avid, but hope it'll work in Flame too... The shader expects linear input. Baselights converts automatically, for other hosts you might need to convert manually.
+Effect blending can be used to blend between the original and the adjusted image.
+
+I've written the shader for Baselight for Avid, but hope it'll work in full Baselight and Flame too... The shader expects linear input. Baselights converts automatically, for other hosts you might need to convert manually.
 
 Demonstration: https://youtu.be/Vl4PXTvA8X8
 Latest version at https://github.com/knejmann/kan_shaders.
