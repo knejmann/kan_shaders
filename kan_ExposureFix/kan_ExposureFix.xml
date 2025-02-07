@@ -1,20 +1,31 @@
 <ShaderNodePreset SupportsAdaptiveDegradation="0" LimitInputsToTexture="True"
-    CommercialUsePermitted="True" Version="2.1"
+    CommercialUsePermitted="True" Version="2.2"
     Description="
-Adjusts the exposure of the whole image so that the average luminance of the measured pixels hits the target luminance.
+Adjusts the exposure of the whole image so that the average
+luminance of the measured pixels hits the target luminance.
 
 Can be used to remove in-camera exposure adjustments.
 
-'Show measured luminance' enables two bars indicating the measured luminance in red and the target luminance in green.
-When the two bars are of equal length, the exposure is unaltered.
+'Show measured luminance' enables:
+ - A numeric display of the measured luminance in the top left corner.
+   Enter this value in 'Target luminance' and the exposure is unaltered.
+ - A red bar indicating measured luminance.
+ - A green bar indicating the selected target luminance.
+   When the two bars are of equal length, the exposure is unaltered.
 
-Effect blending can be used to blend between the original and the adjusted image.
+'Effect Blending' can be used to blend between the original
+and the adjusted image.
 
-I've written the shader for Baselight for Avid, but hope it'll work in full Baselight and Flame too... The shader expects linear input. Baselights converts automatically, for other hosts you might need to convert manually.
+I've written the shader for Baselight for Avid, but I hope it'll
+work in full Baselight and Flame too.
+The shader expects linear input. Baselight converts automatically;
+for other hosts, you might need to convert manually.
 
-Demonstration: https://youtu.be/Vl4PXTvA8X8
+Demonstration (a few versions old): https://youtu.be/Vl4PXTvA8X8
 Latest version at https://github.com/knejmann/kan_shaders.
 For questions contact post@kan.dk
+
+Code for writing numbers to the screen by @P_Malin https://www.shadertoy.com/view/4sBSWW
 "
     Name="kan_ExposureFix" MatteProvider="False" InputFilmLightColourSpace="Rec709_lin"
     OutputFilmLightColourSpace="Rec709_lin">
