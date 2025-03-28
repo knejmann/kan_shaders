@@ -1,5 +1,5 @@
 <ShaderNodePreset SupportsAdaptiveDegradation="0" LimitInputsToTexture="True"
-    CommercialUsePermitted="True" Version="2.2"
+    CommercialUsePermitted="True" Version="2.3"
     Description="
 Adjusts the exposure of the whole image so that the average
 luminance of the measured pixels hits the target luminance.

@@ -1,5 +1,5 @@
-#version 460
-// shader version 2
+#version 450
+// shader version 2.3
 
 // This first pass measures the average luminance of the pixels chosen.
 // The output is a mostly black image where the pixels in the lower left corner is set to the measured luminance value.
@@ -7,6 +7,7 @@
 // inputs
 uniform float adsk_result_w, adsk_result_h; // width and height of the frame
 uniform sampler2D source; // input video
+vec2 texSize = vec2(adsk_result_w, adsk_result_h);
 
 // values from UI
 uniform vec2 measureCenterUV; // range 0 - 1
@@ -22,13 +23,14 @@ float luminance(vec3 color) {
 float calculateAverageLuminance(vec2 measureCenterUV, int measureSize) {
     float totalLuminance = 0.0;
     int count = 0;
-
+    vec2 offset;
+    vec4 color;
     for(int i = -measureSize; i <= measureSize; i++) {
         for(int j = -measureSize; j <= measureSize; j++) {
-            vec2 offset = vec2(i, j) / textureSize(source, 0);
+            vec2 offset = vec2(i, j) / texSize;
             vec4 color = texture2D(source, measureCenterUV + offset);
-            float luminance = luminance(color.rgb);
-            totalLuminance += luminance;
+            float lum = luminance(color.rgb);
+            totalLuminance += lum;
             count++;
         }
     }

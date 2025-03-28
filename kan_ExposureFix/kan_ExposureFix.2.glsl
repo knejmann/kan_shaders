@@ -1,5 +1,5 @@
 #version 460
-// shader version 2
+// shader version 2.3
 
 // this second pass adjusts the luminance of the source.
 
@@ -7,6 +7,7 @@
 uniform float adsk_result_w, adsk_result_h;
 uniform sampler2D source;
 uniform sampler2D adsk_results_pass1;
+vec2 texSize = vec2(adsk_result_w, adsk_result_h); 
 
 // values from UI
 uniform bool showMeasurement;
@@ -63,7 +64,7 @@ float PrintValue(vec2 vStringCoords, float fValue, float fMaxDigits, float fDeci
         } else {
             if(fDigitIndex == -1.0) {
                 if(fDecimalPlaces > 0.0)
-                    fCharBin = 2.0;
+                    fCharBin = 2.1; // Added 0.1 to fix rendering on BL for Mac
             } else {
                 float fReducedRangeValue = fValue;
                 if(fDigitIndex < 0.0) {
@@ -71,7 +72,7 @@ float PrintValue(vec2 vStringCoords, float fValue, float fMaxDigits, float fDeci
                     fDigitIndex += 1.0;
                 }
                 float fDigitValue = (abs(fReducedRangeValue / (pow(10.0, fDigitIndex))));
-                fCharBin = DigitBin(int(floor(mod(fDigitValue, 10.0))));
+                fCharBin = DigitBin(int(floor(mod(fDigitValue, 10.0)))) + 0.1; // Added 0.1 to fix rendering on BL for Mac
             }
         }
     }
@@ -128,7 +129,7 @@ float convertFromLinearFloat(float val) {
 
 float drawMeasureArea(vec2 pixel, vec2 center, int size) {
     float a = 0.;
-    vec2 nsize = vec2(size) / textureSize(source, 0); // size = radius på den indskrevne cirkel i kvadratet, der måles i, i pixels. nsize er normaliseret.
+    vec2 nsize = vec2(size) / texSize; // size = radius på den indskrevne cirkel i kvadratet, der måles i, i pixels. nsize er normaliseret.
     vec2 cpixel = abs(pixel - center); // range 0
 
     // if ( cpixel.x <= nsize.x && cpixel.y <= nsize.y)
@@ -165,7 +166,7 @@ void main(void) {
     //     col = vec3(1., 0., 0.);
 
     // if enabled the measured luminance is plotted on the top 5% of the image as a red bar.
-    if(showMeasurement && uv.y < 1 && uv.y >= 0.95 && uv.x <= lum_disp)
+    if(showMeasurement && uv.y < 1.0 && uv.y > 0.95 && uv.x < lum_disp)
         colComp = vec3(1.0, 0.0, 0.0);
 
     // if showMeasurement is enabled the luminance target is plotted on the top 5-6% of the image as a green bar.
@@ -179,7 +180,7 @@ void main(void) {
         vec2 vFontSize = vec2(16.0, 30.0); // Multiples of 4x5 work best
         float fDigits = 5.0;
         float fDecimalPlaces = 1.0;
-        float fIsDigit1 = PrintValue((gl_FragCoord - vPixelCoord1) / vFontSize, fValue1, fDigits, fDecimalPlaces);
+        float fIsDigit1 = PrintValue((gl_FragCoord.xy - vPixelCoord1) / vFontSize, fValue1, fDigits, fDecimalPlaces);
         colComp = mix(colComp, vec3(0.0, 1.0, 1.0), fIsDigit1);
     }
 
