@@ -7,13 +7,13 @@
 uniform float adsk_result_w, adsk_result_h;
 uniform sampler2D source;
 uniform sampler2D adsk_results_pass1;
-vec2 texSize = vec2(adsk_result_w, adsk_result_h); 
+vec2 texSize = vec2(adsk_result_w, adsk_result_h);
 
 // values from UI
 uniform bool showMeasurement;
-uniform float expo_o;
+uniform float manualExposureChange;
 uniform float targetLuminance;
-uniform float effectBlending;
+uniform float targetInfluence;
 
 uniform bool showArea;
 uniform bool debug;
@@ -146,9 +146,6 @@ void main(void) {
     // vec3 col = texture2DRect(source, xy).rgb;
     vec3 col = texture2D(source, uv).rgb;
 
-    // overall exposure adjustemnt
-    vec3 colMan = col * pow(2.0, expo_o); // manual adjustment of exposure
-
     // grab the luminance of one pixel in the output of pass_1. This is the measured luminance.
     float lum = texture2D(adsk_results_pass1, vec2(0.005)).r;
 
@@ -158,12 +155,15 @@ void main(void) {
     // targetLuminance is divided by 1920 and converted from log to linear. This is then divided by the measured lum.
     float exposureComp = convertToLinearFloat(targetLuminance / 1920.) / lum; // virker når viewport er 1920 bred
 
-    // multiply the color (RGB) by the exposureComp.
-    vec3 colComp = colMan * exposureComp;
+    // multiply the color (RGB) by the exposureComp. Mix controlled by targetInfluence.
+    vec3 colComp = mix(col, col * exposureComp, targetInfluence); 
 
     // // if(debug && uv.y <= 0.05 && uv.x <= lum / 100.)
     // if(debug && uv.y <= 0.05 && gl_FragCoord.x <= lum * 10.)
     //     col = vec3(1., 0., 0.);
+
+    // overall exposure adjustemnt
+    colComp = colComp * pow(2.0, manualExposureChange); // manual adjustment of exposure
 
     // if enabled the measured luminance is plotted on the top 5% of the image as a red bar.
     if(showMeasurement && uv.y < 1.0 && uv.y > 0.95 && uv.x < lum_disp)
@@ -197,5 +197,5 @@ void main(void) {
         gl_FragColor = texture2D(adsk_results_pass1, uv);
     else
         // gl_FragColor = vec4(colComp, 1.0);
-        gl_FragColor = vec4(mix(col, colComp, effectBlending), 1.0);
+        gl_FragColor = vec4(colComp, 1.0);
 }
