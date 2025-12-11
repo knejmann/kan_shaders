@@ -1,0 +1,49 @@
+<ShaderNodePreset SupportsAdaptiveDegradation="0" LimitInputsToTexture="True" Version="1.1"
+    Name="kan_SafeArea" CommercialUsePermitted="True"
+    Description="Tegner Safe Area for grafik i programmer og i credits.
+    Følger retningslinjerne for DR (https://www.dr.dk/om-dr/designmanager/grid-og-kreditering/saadan-pakker-du-dit-dr-program-ind).
+    Kåre - 2025">
+    <Shader OutputBitDepth="Output" Index="1">
+
+        <!-- Input Config -->
+
+        <Uniform Name="source" Type="sampler2D" DisplayName="Front" Index="0" NoInput="Error"
+            InputType="Front"
+            Mipmaps="False" GL_TEXTURE_WRAP_T="GL_REPEAT" GL_TEXTURE_WRAP_S="GL_REPEAT"
+            GL_TEXTURE_MAG_FILTER="GL_NEAREST" GL_TEXTURE_MIN_FILTER="GL_NEAREST">
+        </Uniform>
+
+        <Uniform Name="show_safe" Page="0" Col="0" Row="0" DisplayName="Vis safe area for grafik"
+            Type="bool" Default="True"></Uniform>
+
+        <Uniform Name="line_color_rgb" DisplayName="Farve" Type="vec3" ValueType="Colour"
+            Tooltip="Linjefarve"
+            Page="0" Col="0" Row="1">
+            <SubUniform ResDependent="None" Max="1000.0" Min="-1000.0" Default="0.0"></SubUniform>
+            <SubUniform ResDependent="None" Max="1000.0" Min="-1000.0" Default="0.8"></SubUniform>
+            <SubUniform ResDependent="None" Max="1000.0" Min="-1000.0" Default="0.0"></SubUniform>
+        </Uniform>
+
+        <Uniform Name="show_credit_minHeight" Page="0" Col="1" Row="0"
+            DisplayName="Vis safe area for credit og mindste højde på credit-baggrund"
+            Type="bool" Default="false">
+        </Uniform>
+
+        <Uniform Name="credit_color_rgb"
+            DisplayName="Farve" Type="vec3"
+            ValueType="Colour"
+            Tooltip=""
+            Page="0" Col="1" Row="1">
+            <SubUniform ResDependent="None" Max="1000.0" Min="-1000.0" Default="0.8"></SubUniform>
+            <SubUniform ResDependent="None" Max="1000.0" Min="-1000.0" Default="0.0"></SubUniform>
+            <SubUniform ResDependent="None" Max="1000.0" Min="-1000.0" Default="0.0"></SubUniform>
+        </Uniform>
+
+    </Shader>
+
+
+    <Page Name="Guides" Page="0">
+        <Col Name="Program" Col="0" Page="0"></Col>
+        <Col Name="Credit" Col="1" Page="0"></Col>
+    </Page>
+</ShaderNodePreset>
